@@ -1,7 +1,7 @@
 #!/usr/bin/env -S csi -s
 
-(load "./framework/micron-dsl.scm")
-(load "./framework/pages/app/readers.scm")
+(load "./micron-dsl.scm")
+(load "./app/templates/comments.scm")
 
 (define comments-dir "/home/sebas/Projects/NomadnetTemplates/framework/pages/comments")
 (define page-name "index")
@@ -37,11 +37,11 @@ Huh, I guess it does."
       
     (subsection "Leave a Comment")
       (style '(fg "aaa" align left))
-      (my-input-field  " Name " "user_name" 16)
-      (my-input-field  " LXMF Address (optional)" "user_lxmf" 32)
-      (my-input-field  " Comment " "comment_text" 64)
+      (my-input-field  " Name " "user_name" 16) newline
+      (my-input-field  " LXMF Address (optional)" "user_lxmf" 32) newline
+      (my-input-field  " Comment " "comment_text" 64) newline
       
       (style '(bg "373"))
       ;; label, link, page name, fields
-      (submit-field "Submit" "/app/handle_comment.scm" "index" "user_name" "user_lxmf" "comment_text")
+      (submit-field "Submit" "/app/actions/handle_comment.scm" "index" "user_name" "user_lxmf" "comment_text")
       (reset-style))

@@ -17,16 +17,16 @@
 (define timestamp (date->string (current-date) "~Y-~m-~d ~H:~M"))
 
 ;; Build the file path
-(define file-path (string-append "/home/sebas/.nomadnetwork/storage/pages/comments/"
+(define file-path (string-append "./comments/"
                                  post-id ".txt"))
 
 ;; Append to comments file
 (with-output-to-file file-path
   (lambda ()
     (display (string-append sanitized-name "|"
-                           user-lxmf "|"
+                           sanitized-text "|"
                            timestamp "|"
-                           sanitized-text "\n")))
+                           user-lxmf "\n")))
   #:append)
 
 ;; Redirect back to blog page with success message

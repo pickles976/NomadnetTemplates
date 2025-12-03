@@ -5,7 +5,7 @@
 (import (chicken io)) 
 (import srfi-13)
 
-(load "./framework/micron-dsl.scm")
+(load "./micron-dsl.scm")
 
 ;; ========== COMMENTS DISPLAY ==========
 
@@ -13,18 +13,19 @@
         "" ; Skip malformed lines
         (let* ((parts (string-split line "|" #t 4))
             (name (list-ref parts 0))
-            (lxmf (list-ref parts 1))
+            (text (list-ref parts 1))
             (timestamp (list-ref parts 2))
-            (text (if (< (length parts) 4) "" (list-ref parts 3))))
+            (lxmf (if (< (length parts) 4) "" (list-ref parts 3))))
                 (conc
                     (style '(fg "eee")) newline name (reset-style) 
-                    " (" timestamp ") "
+                    " (" timestamp ")"
                     (if (and lxmf (not (string-null? lxmf)))
                         (conc
                             (style '(fg "0FD")) 
-                            (link (conc "lxmf@" lxmf) (conc"lxmf@" lxmf))
-                            (reset-style) ":" newline)
+                            (link (conc "lxmf@" lxmf) (conc " lxmf@" lxmf))
+                            (reset-style))
                         "")
+                    ":" newline
                     text newline "-" newline)))
 
 (define (display-comments comments-dir post-id)

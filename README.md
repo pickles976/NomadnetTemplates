@@ -10,11 +10,12 @@
         - [x] improved text styling (check deepseek's suggestions)
         - [x] style should not take any arguments
         - [x] consolidate my DSL implementation with the one Deepseek provided
-    - [ ] user interaction
+    - [x] user interaction
         - [x] load comments from file
-        - [ ] write comments to file
-            - [ ] test in-situ
-        - [ ] hooray! feature-parity achieved!
+        - [x] write comments to file
+            - [x] test in-situ
+        - [x] hooray! feature-parity achieved!
+- [x] fix bug with lxmf entry
 
 - [ ] switch from file-based comments, to sqlite-based comment system
     - [ ] create a simple sqlite database https://wiki.call-cc.org/eggref/5/sql-de-lite#preparing-a-sql-statement
@@ -35,6 +36,7 @@ pages
           |________comments.mu // template functions
 ```
 
+- [ ] compile the dsl
 - [ ] update my personal node with this
 
 - [ ] integrate recipe search
