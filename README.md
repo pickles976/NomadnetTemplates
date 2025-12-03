@@ -1,31 +1,17 @@
 # README
 
-### TODO
-- [x] get a basic page with comments working
-- [ ] recreate it in chicken scheme
-    - [ ] simple DSL
-        - [x] links
-        - [x] fields
-        - [x] submit buttons
-        - [x] improved text styling (check deepseek's suggestions)
-        - [x] style should not take any arguments
-        - [x] consolidate my DSL implementation with the one Deepseek provided
-    - [x] user interaction
-        - [x] load comments from file
-        - [x] write comments to file
-            - [x] test in-situ
-        - [x] hooray! feature-parity achieved!
-- [x] fix bug with lxmf entry
+This is a work in progress library for generating micron pages for [nomadnet](https://github.com/markqvist/NomadNet) in [chicken scheme](https://call-cc.org/).
 
-- [ ] switch from file-based comments, to sqlite-based comment system
-    - [ ] create a simple sqlite database https://wiki.call-cc.org/eggref/5/sql-de-lite#preparing-a-sql-statement
-    - [ ] implement comments
+![](./images/micron_generator_demo.png)
 
-Design app layout:
+## Project Layout
 
-```
+```bash
 pages
+|____micron-dsl.scm
+|
 |____index.mu
+|
 |____app
     |_____models.scm // SQLite functions go here
     |
@@ -36,7 +22,29 @@ pages
           |________comments.mu // template functions
 ```
 
-- [ ] compile the dsl
+## Run Locally
+
+Install chicken scheme
+```bash
+sudo apt update
+sudo apt-get install chicken-bin
+sudo chicken-install srfi-1
+sudo chicken-install srfi-13
+sudo chicken-install srfi-19
+```
+
+Run the demo page manually:
+```bash
+cd ./framework/pages
+csi -s ./index.mu 
+```
+
+Or just copy the contents of `/framework/pages` to `~/.nomadnetwork/storage/pages`
+
+### TODO
+- [ ] switch from file-based comments, to sqlite-based comment system
+    - [ ] create a simple sqlite database https://wiki.call-cc.org/eggref/5/sql-de-lite#preparing-a-sql-statement
+    - [ ] implement comments
 - [ ] update my personal node with this
 
 - [ ] integrate recipe search
@@ -47,18 +55,8 @@ pages
     - [ ] convert HTML to micron
 - [ ] create epub search
 
+- [ ] compile the custom modules
+- [ ] add instructions for users to build and use the custom modules
+- [ ] add some tutorials
+
 https://wiki.call-cc.org/chicken-for-python-programmers
-
-`sudo apt-get install chicken-bin`
-
-```
-csi -s ./framework/pages/index.mu 
-```
-
-`sudo chicken-install srfi-1`
-
-# Compile the module
-`csc -s -J micron-dsl.scm`
-
-# Install it
-chicken-install micron-dsl
