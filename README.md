@@ -5,8 +5,9 @@
 - [ ] recreate it in chicken scheme
     - [x] links
     - [x] fields
-    - [ ] submit buttons
-    - [ ] improved text styling (check deepseek's suggestions)
+    - [x] submit buttons
+    - [x] improved text styling (check deepseek's suggestions)
+    - [ ] style should not take any arguments
     - [ ] load comments from file
     - [ ] write comments to file
     - [ ] hooray! feature-parity achieved!
@@ -30,3 +31,11 @@ https://wiki.call-cc.org/chicken-for-python-programmers
 ```
 csi -s ./framework/pages/index.mu 
 ```
+
+`sudo chicken-install srfi-1`
+
+# Compile the module
+`csc -s -J micron-dsl.scm`
+
+# Install it
+chicken-install micron-dsl
