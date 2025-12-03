@@ -11,7 +11,7 @@
         - [x] style should not take any arguments
         - [x] consolidate my DSL implementation with the one Deepseek provided
     - [ ] user interaction
-        - [ ] load comments from file
+        - [x] load comments from file
         - [ ] write comments to file
         - [ ] hooray! feature-parity achieved!
 

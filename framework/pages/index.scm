@@ -33,6 +33,7 @@ Huh, I guess it does."
     
     (subsection "Comments")
       (display-comments comments-dir page-name)
+      newline
       
     (subsection "Leave a Comment")
       (style '(fg "aaa" align left))
