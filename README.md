@@ -41,7 +41,25 @@ csi -s ./index.mu
 
 Or just copy the contents of `/framework/pages` to `~/.nomadnetwork/storage/pages`
 
+### Tips
+
+[The Schematics of Computation by Manis and Little](https://www.math.purdue.edu/~lucier/schematics-front.pdf)
+
+If using vscode, download the Scheme extension and make sure that .mu files are recognized as scheme:
+`Preferences -> Settings -> type: "files.associations"` and add a mapping from `*.mu` to `scheme`.
+
+Install a scheme language server. 
+```bash
+sudo chicken-install -s apropos chicken-doc srfi-18
+cd `csi -R chicken.platform -p '(chicken-home)'`
+curl http://3e8.org/pub/chicken-doc/chicken-doc-repo.tgz | sudo tar zx
+sudo chicken-install lsp-server
+```
+
+Add a scheme lsp extension to vscode. Open the command palette and type `ext install rgherdt.scheme-lsp`
+
 ### TODO
+- [ ] get a decent dev environment going
 - [ ] switch from file-based comments, to sqlite-based comment system
     - [ ] create a simple sqlite database https://wiki.call-cc.org/eggref/5/sql-de-lite#preparing-a-sql-statement
     - [ ] implement comments
