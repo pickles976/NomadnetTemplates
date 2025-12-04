@@ -79,24 +79,22 @@ sudo chicken-install lsp-server
 Add a scheme lsp extension to vscode. Open the command palette and type `ext install rgherdt.scheme-lsp`
 
 ### TODO
-- [x] get a decent dev environment going
-- [x] switch from file-based comments, to sqlite-based comment system
-    - [x] create a simple sqlite database https://wiki.call-cc.org/eggref/5/sql-de-lite#preparing-a-sql-statement
-    - [x] simple crud
-    - [x] implement comments
-    - [x] make custom objects for comments
-    https://chat.deepseek.com/share/yj1n7neekh70b9vpyc
-    - [ ] get it working in-situ
 
-- [ ] get lsp working
+
 - [ ] see if claude can create a simple ORM
-    - [ ] models.scm file
-    - [ ] orm --generate (makes file and tables)
-    - [ ] insert command
+    - [x] models.scm file
+    - [x] orm --generate (makes file and tables)
+    - [x] insert command
     - [ ] return a list (filter by specific keywords)
     - [ ] specify foreign keys
-
 - [ ] compile the custom modules
+- [ ] usage
+    - [ ] micron-dsl.scm
+    - [ ] orm.scm
+
+- [ ] get lsp working
+- [ ] get it working in-situ
+
 - [ ] add instructions for users to build and use the custom modules
 - [ ] add some tutorials
 

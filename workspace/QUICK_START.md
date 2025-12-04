@@ -56,6 +56,8 @@ workspace/
 
 ## Adding a New Model
 
+**Now fully automated!** Just add to models.scm - no manual constructor code needed.
+
 1. Edit `models.scm` and add your model to `all-models`:
 
 ```scheme
@@ -76,21 +78,13 @@ workspace/
   (list post-model comment-model user-model))  ; Add here
 ```
 
-2. Add a constructor in `orm-lib.scm`:
-
-```scheme
-(define (make-user fields)
-  "Create a new user instance"
-  (make-instance 'user fields))
-```
-
-3. Regenerate tables:
+2. Regenerate tables:
 
 ```bash
 csi -s orm.scm --generate
 ```
 
-4. Use it:
+3. Use it! (make-user is automatically generated):
 
 ```scheme
 (define new-user

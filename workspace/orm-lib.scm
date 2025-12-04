@@ -45,16 +45,44 @@
 
 ;; ========== CONSTRUCTOR GENERATION ==========
 
-;;; For now, let's manually create make-comment and make-post
-;;; Later we can generate these automatically
+;;; We automatically generate make-<model> functions from models.scm
+;;; This uses 'eval' and 'quasiquote' to create functions at runtime
 
-(define (make-comment fields)
-  "Create a new comment instance"
-  (make-instance 'comment fields))
+(define (generate-constructor model-name)
+  "Dynamically create a make-<model> constructor function"
+  ;;;
+  ;;; For model-name 'comment, this creates:
+  ;;;   (define (make-comment fields)
+  ;;;     (make-instance 'comment fields))
+  ;;;
+  ;;; The quasiquote (`) allows us to build code with variable interpolation:
+  ;;;   `(define (,func-name ...) ...)
+  ;;;
+  ;;; The comma (,) means "insert the value of this variable here"
 
-(define (make-post fields)
-  "Create a new post instance"
-  (make-instance 'post fields))
+  (let ((constructor-name (string->symbol (conc "make-" (symbol->string model-name)))))
+    ;; Uncomment for debugging:
+    ;; (print "Generating constructor: " constructor-name)
+    (eval `(define (,constructor-name fields)
+             (make-instance ',model-name fields)))))
+
+(define (generate-all-constructors)
+  "Generate constructor functions for all models"
+  ;;;
+  ;;; This loads models.scm and creates a make-* function for each model
+
+  ;; Load models
+  (load "models.scm")
+
+  ;; Generate constructor for each model
+  (for-each
+    (lambda (model)
+      (let ((model-name (alist-ref 'name model)))
+        (generate-constructor model-name)))
+    all-models))
+
+;; Generate constructors when this library loads
+(generate-all-constructors)
 
 ;; ========== DATABASE SAVING ==========
 
@@ -146,13 +174,12 @@
   ;;;
   ;;; This generates and executes an INSERT statement
   ;;; Requires: database connection via db-open
-  ;;;           models.scm loaded (for model definitions)
+  ;;;           models.scm already loaded by generate-all-constructors
 
   (unless (db-connection)
     (error "No database connection. Call (db-open \"filename.db\") first"))
 
-  ;; Load models (safe to call multiple times)
-  (load "models.scm")
+  ;; Models are already loaded by generate-all-constructors
 
   (let* ((model-name (instance-model instance))
          (model (find-model model-name all-models))

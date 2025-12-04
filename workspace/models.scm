@@ -66,6 +66,27 @@
       ((name . text)
        (type . text))))))
 
-;; For now, we'll just have a list of all models
+;; Let's add a user model to test automatic constructor generation
+(define user-model
+  '((name . user)
+    (fields . (
+      ((name . id)
+       (type . integer)
+       (primary-key . #t)
+       (autoincrement . #t))
+
+      ((name . username)
+       (type . text)
+       (size . 32))
+
+      ((name . email)
+       (type . text)
+       (size . 100))
+
+      ((name . created-at)
+       (type . text)
+       (size . 20))))))
+
+;; List of all models - add new models here
 (define all-models
-  (list post-model comment-model))
+  (list post-model comment-model user-model))

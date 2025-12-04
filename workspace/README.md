@@ -201,9 +201,54 @@ Instances are alists with a special `__model__` key:
 ; Equivalent to: (if (not condition) (do-something))
 ```
 
+## Update: Automatic Constructor Generation! ✅
+
+Constructors are now **automatically generated** from models.scm!
+
+### How It Works
+
+When you `(load "orm-lib.scm")`, it:
+1. Loads models.scm
+2. For each model in `all-models`, generates a `make-<model>` function using `eval`
+3. Makes them globally available
+
+### Example
+
+Add to models.scm:
+```scheme
+(define user-model '((name . user) (fields . (...))))
+(define all-models (list post-model comment-model user-model))
+```
+
+No manual code needed - `make-user` automatically exists!
+
+```scheme
+(load "orm-lib.scm")
+(make-user '((username . "alice")))  ; Just works!
+```
+
+### New Scheme Concepts
+
+**Quasiquote (`)** - Template with interpolation:
+```scheme
+`(define (,func-name) ...)  ; Like template strings
+```
+
+**Eval** - Execute code as data:
+```scheme
+(eval '(define x 10))       ; Creates variable x
+(eval `(define ,name 5))    ; Dynamic definition
+```
+
+**Symbol manipulation**:
+```scheme
+(string->symbol "make-user")  ; Creates symbol 'make-user
+(symbol->string 'user)        ; Creates string "user"
+```
+
 ## Next Steps
 
 1. ✅ ~~INSERT operations (create records)~~
-2. SELECT operations (query records)
-3. A `define-model` macro to make model definitions easier
-4. Automatic constructor generation from models.scm
+2. ✅ ~~Automatic constructor generation from models.scm~~
+3. SELECT operations (query records)
+4. (Optional) A `define-model` macro for cleaner syntax
