@@ -1,19 +1,3 @@
-# Welcome to Macron
-
-This is a framework written (mostly by claude) to allow for the easy construction of interactive pages on nomadnet.
-
-[Link to repo](https://github.com/pickles976/Macro)
-
-I found that there was not enough easy to use tooling around nomadnet and micron, and I hope that macron helps bridge that gap.
-
-[The macron repo is also downloadable through nomadnet as a tar file.](/file/macron.tar.gz)
-
----
-
-## Built for Learning
-
-The `docs` folder has a bunch of interactive scheme files that claude generated. They do a pretty good job at explaining how everything works.
-
 ## Get Started
 
 ### Installation

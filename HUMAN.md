@@ -74,7 +74,7 @@ Add a scheme lsp extension to vscode. Open the command palette and type `ext ins
 - [ ] usage
     - [ ] multiple pages generated with micron-dsl.scm 
         - [x] index (link to repo)
-        - [ ] test it
+        - [x] test it
         - [ ] blog post 0 (explain the basics of chicken scheme)
         - [ ] blog post 1 (explain how the DSL works)
         - [ ] blog post 2 (explain the markdown converter)
