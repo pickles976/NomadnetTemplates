@@ -26,7 +26,7 @@
 ;; Load settings (running from pages/, so app/ is relative)
 (load "/home/sebas/.nomadnetwork/storage/pages/app/settings.scm")
 (load "/home/sebas/.nomadnetwork/storage/pages/app/templates/header.scm")
-(load "./app/templates/recent-comments.scm")
+(load "/home/sebas/.nomadnetwork/storage/pages/app/templates/comments.scm")
 
 ;; Configuration
 (define page-name "index")
@@ -41,10 +41,6 @@
 
   ;; Welcome section
   (style '(align left))
-  nl
-
-  nl
-  (section "Welcome to Angstrom")
   nl
 
     (style '(fg "ddd"))
@@ -71,7 +67,7 @@
   ;; Installation instructions from markdown
   (style '(align left))
   nl
-  (md-file->micron "./app/markdown/index.md")
+  (md-file->micron "/home/sebas/.nomadnetwork/storage/pages/app/markdown/index.md")
   nl
 
   nl
@@ -102,7 +98,6 @@
     (display-recent-comments (app-db-path) 10)
     nl
 
-  nl
   (subsection "Leave a Comment")
   nl
 

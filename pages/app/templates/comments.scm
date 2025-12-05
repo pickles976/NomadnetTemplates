@@ -1,10 +1,11 @@
 #!/usr/bin/env -S csi -s
 
-;;; comments.scm - Display comments from database using ORM
+;;; comments.scm - Display comments using both ORM and raw SQL
 
 (import (chicken string))
 (import srfi-1)
 (import srfi-13)
+(import sql-de-lite)
 (import micron)
 (import orm)
 
@@ -15,28 +16,40 @@
 ;; Initialize ORM with models from configured path
 (orm-init (app-models-path))
 
-;; ========== COMMENTS DISPLAY ==========
+;; ========== SHARED COMMENT RENDERING ==========
 
-(define (render-comment comment)
-  "Render a single comment instance as micron markup"
-  (let ((name (alist-ref 'name comment))
-        (text (alist-ref 'text comment))
-        (timestamp (alist-ref 'timestamp comment))
-        (address (alist-ref 'address comment)))
-    (conc
-      (style '(fg "eee")) nl name (reset-style)
-      " (" timestamp ")"
-      (if (and address (not (string-null? address)))
-          (conc
-            (style '(fg "0FD"))
-            (link (conc "lxmf@" address) (conc " lxmf@" address))
-            (reset-style))
-          "")
-      ":" nl
-      text nl "-" nl)))
+(define (render-comment name address timestamp text #!optional page-name)
+  "Render a single comment with consistent formatting.
+   If page-name is provided, it will be displayed."
+  (conc
+    ;; Name and timestamp with arrow
+    (style '(fg "aa2")) "▶" name (reset-style)
+    " (" timestamp ")"
+
+    ;; Optional LXMF address
+    (if (and address (not (string-null? address)))
+        (conc
+          (style '(fg "0FD"))
+          (link (conc "lxmf@" address) (conc " lxmf@" address))
+          (reset-style))
+        "")
+
+    ;; Show which page this comment is on (if provided)
+    (if page-name
+        (conc " on " (style '(fg "5af")) page-name (reset-style))
+        "")
+    ":" nl
+
+    ;; Comment text with background and indentation
+    nl
+    (style '(fg "eee" bg "222")) "    " text (reset-style)
+    nl
+    nl))
+
+;; ========== ORM-BASED COMMENTS (FOR SPECIFIC PAGE) ==========
 
 (define (display-comments db-path page-id)
-  "Display comments for a page from the database"
+  "Display comments for a specific page using ORM"
   ;; Open database connection
   (db-open db-path)
 
@@ -48,6 +61,47 @@
 
   ;; Render comments or show message
   (if (null? comments)
-      "No comments yet. Be the first!"
-      ;; Reverse to show newest first
-      (apply conc (map render-comment (reverse comments)))))
+      (conc (style '(fg "888")) "No comments yet. Be the first!" (reset-style) nl)
+
+      ;; Reverse to show newest first, then render each
+      (apply conc
+        (map (lambda (comment)
+               (render-comment
+                 (alist-ref 'name comment)
+                 (alist-ref 'address comment)
+                 (alist-ref 'timestamp comment)
+                 (alist-ref 'text comment)))
+             (reverse comments)))))
+
+;; ========== RAW SQL COMMENTS (ACROSS ALL PAGES) ==========
+
+(define (display-recent-comments db-path limit)
+  "Display the most recent N comments from all pages using raw SQL"
+
+  ;; Open database and execute query
+  (let* ((db (open-database db-path))
+         (sql-query "SELECT id, name, address, page_name, timestamp, text
+                     FROM comment
+                     ORDER BY id DESC
+                     LIMIT ?")
+         (rows (query fetch-all (sql db sql-query) limit)))
+
+    ;; Close database
+    (close-database db)
+
+    ;; Process results
+    (if (null? rows)
+        (conc (style '(fg "888")) "No comments yet." (reset-style) nl)
+
+        ;; Render each comment, including page-name since we're showing all pages
+        (apply conc
+          (map (lambda (row)
+                 (let ((id         (list-ref row 0))
+                       (name       (list-ref row 1))
+                       (address    (list-ref row 2))
+                       (page-name  (list-ref row 3))
+                       (timestamp  (list-ref row 4))
+                       (text       (list-ref row 5)))
+
+                   (render-comment name address timestamp text page-name)))
+               rows)))))

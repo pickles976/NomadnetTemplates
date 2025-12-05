@@ -29,11 +29,11 @@
    Returns:
      Micron markup string for the header"
   (conc
-    squiggle nl
+    (hr) nl
     "`c`!`F3af" title "`!" nl
     "`*" subtitle "`*" nl
     "`Fddd" nl
-    squiggle nl))
+    (hr) nl))
 
 (define (Angstrom-header)
   "Generate the default Angstrom framework header"
