@@ -13,6 +13,7 @@ A **simple, learnable ORM** for building Nomadnet applications in **Chicken Sche
 - ✅ INSERT (db-save)
 - ✅ SELECT with filtering (db-list)
 - ✅ Working Nomadnet page example
+- ✅ **Complete micron-dsl** with full feature set (forms, colors, alignment, etc.)
 - ⚠️ No UPDATE/DELETE (intentionally simple - user doesn't need them)
 
 ## Directory Structure
@@ -249,7 +250,9 @@ If user continues:
 2. `src/orm-lib.scm:40-85` - Constructor generation (the magic)
 3. `src/orm-lib.scm:160-170` - db-connection parameter
 4. `src/orm-lib.scm:241-274` - db-list implementation
-5. `pages/index.mu` - See it all in action
+5. `src/micron-dsl.scm` - **Complete micron DSL** (264 lines, all features)
+6. `pages/index.mu` - See it all in action
+7. `docs/MICRON_DSL_REFERENCE.md` - Micron DSL quick reference
 
 ## Debugging Tips
 

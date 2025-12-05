@@ -7,7 +7,7 @@
 (import (chicken string))
 
 ;; Path relative to workspace root
-(load "src/orm-lib.scm")
+(load "framework/orm-lib.scm")
 
 ;; Get form data from environment variables
 (define user-name (or (get-environment-variable "field_user_name") "Anonymous"))
@@ -33,7 +33,7 @@
       (text . ,sanitized-text))))
 
 ;; Database path - relative to workspace root
-(define db-path "app.db")
+(define db-path "app/app.db")
 
 ;; Save to database
 (db-open db-path)

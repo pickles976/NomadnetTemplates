@@ -3,11 +3,11 @@
 ;;; index.mu - Main page using ORM-based comments
 
 ;; Paths relative to workspace root (where this is run from)
-(load "src/micron-dsl.scm")
-(load "pages/app/templates/comments.scm")
+(load "framework/micron.scm")
+(load "app/templates/comments.scm")
 
 ;; Configuration
-(define db-path "app.db")
+(define db-path "app/app.db")
 (define page-name "index")
 
 (define (my-input-field label fieldname size)

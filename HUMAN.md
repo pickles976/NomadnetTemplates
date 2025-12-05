@@ -4,24 +4,6 @@ This is a work in progress library for generating micron pages for [nomadnet](ht
 
 ![](./images/micron_generator_demo.png)
 
-## Project Layout
-
-```bash
-pages
-|____micron-dsl.scm
-|
-|____index.mu
-|
-|____app
-    |_____models.scm // SQLite functions go here
-    |
-    |_____actions
-    |     |________handle_comments.mu // Each file does CRUD + other stuff
-    |
-    |_____templates
-          |________comments.mu // template functions
-```
-
 ## Run Locally
 
 Install chicken scheme
@@ -43,10 +25,6 @@ csi -s ./index.mu
 Or just copy the contents of `/framework/pages` to `~/.nomadnetwork/storage/pages`
 
 ### Tips
-
-```
-(db-list (comment 'page-index "blog_post")) ;; returns all comments for that page
-```
 
 #### Learning Scheme
 
@@ -86,13 +64,13 @@ Add a scheme lsp extension to vscode. Open the command palette and type `ext ins
     - [x] insert command
     - [x] return a list (filter by specific keywords)
 - [x] create documentation
+- [x] claude file
+- [x] implement the rest of micron-dsl
 
-- [ ] claude file
+- [x] separate all the examples out into "docs" or "examples"
+- [x] load and convert markdown content into micron
+- [x] create an example of converting markdown into micron
 
-- [ ] implement the rest of micron-dsl
-- [ ] load and convert markdown content into 
-- [ ] separate all the examples out into "docs" or "examples"
-- [ ] compile the custom modules
 - [ ] usage
     - [ ] multiple pages generated with micron-dsl.scm 
         - [ ] index (link to repo)
@@ -104,8 +82,12 @@ Add a scheme lsp extension to vscode. Open the command palette and type `ext ins
         - [ ] add comment sections to the bottom of each page
 - [ ] get it working in-situ
 
-example app
+
+
+DONE
+
 - [ ] get lsp working
+- [ ] compile the custom modules
 
 - [ ] add instructions for users to build and use the custom modules
 - [ ] add some tutorials

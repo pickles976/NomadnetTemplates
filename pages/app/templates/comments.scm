@@ -7,8 +7,8 @@
 (import srfi-13)
 
 ;; Paths are relative to workspace root (where index.mu is run from)
-(load "src/micron-dsl.scm")
-(load "src/orm-lib.scm")
+(load "framework/micron.scm")
+(load "framework/orm-lib.scm")
 
 ;; ========== COMMENTS DISPLAY ==========
 
