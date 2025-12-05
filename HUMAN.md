@@ -71,11 +71,24 @@ Add a scheme lsp extension to vscode. Open the command palette and type `ext ins
 - [x] load and convert markdown content into micron
 - [x] create an example of converting markdown into micron
 
+```
+csc -s -J micron.scm
+csc -s -J markdown.scm
+csc -s -J orm-lib.scm
+chicken-install
+```
+
 - [ ] usage
     - [ ] multiple pages generated with micron-dsl.scm 
         - [x] index (link to repo)
         - [x] test it
-        - [ ] compile or use as script
+        - [x] compile or use as script
+        - [x] remove relative imports
+        - [x] refactor
+        - [x] issues with newline
+        - [ ] project_settings file
+        - [ ] make the database location configurable in settings
+
         - [ ] blog post 0 (explain the basics of chicken scheme)
         - [ ] blog post 1 (explain how the DSL works)
         - [ ] blog post 2 (explain the markdown converter)
@@ -83,8 +96,9 @@ Add a scheme lsp extension to vscode. Open the command palette and type `ext ins
     - [ ] orm.scm
         - [ ] add comment sections to the bottom of each page
 - [ ] get it working in-situ
-- [ ] make the database location configurable in settings
-- [ ] turn all the stuff in `framework` into modules so they dont need relative paths for exporting
+
+- [ ] index.md
+
 - [ ] deploy
 
 - [ ] update docs

@@ -7,7 +7,7 @@
 (import (chicken string))
 
 ;; Path relative to workspace root
-(load "framework/orm-lib.scm")
+(import orm-lib)
 
 ;; Get form data from environment variables
 (define user-name (or (get-environment-variable "field_user_name") "Anonymous"))

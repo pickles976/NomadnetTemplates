@@ -1,6 +1,6 @@
-# Nomadnet ORM Framework
+# Macron
 
-A simple, learnable ORM (Object-Relational Mapper) for building Nomadnet applications with SQLite in Chicken Scheme.
+Tools for building Nomadnet apps in Chicken Scheme. Includes an ORM, a micron DSL, and a markdown converter.
 
 ## Project Structure
 
@@ -124,83 +124,148 @@ Results are alists - easy to process:
 (filter (lambda (c) (> (alist-ref 'id c) 5)) comments)
 ```
 
-## Features
+## What's Included
 
-- ✅ **Automatic table generation** from model definitions
-- ✅ **Auto-generated constructors** - add a model, get `make-<model>` for free
-- ✅ **Simple INSERT** with `db-save`
-- ✅ **Flexible SELECT** with `db-list` and filtering
-- ✅ **SQL injection protection** via parameterized queries
-- ✅ **Thread-safe** database connection management
-- ✅ **Micron DSL** for generating terminal-friendly markup
+- Automatic table generation from model definitions
+- Auto-generated constructors - add a model, get `make-<model>`
+- INSERT with `db-save`
+- SELECT with `db-list` and filtering
+- Parameterized queries
+- Thread-safe database connection
+- Micron DSL for generating micron markup
+- Markdown to micron converter
 
-## Example: Nomadnet Page with Comments
+## Example
 
-The `pages/` folder contains a fully functional Nomadnet page:
+`pages/` contains a working Nomadnet page:
 
-- **index.mu** - Main page that displays comments from database
-- **comments.scm** - Template that queries and renders comments
-- **handle_comment.scm** - Form handler that saves new comments
-
-All powered by the ORM!
+- `index.mu` - Main page that displays comments from database
+- `comments.scm` - Template that queries and renders comments
+- `handle_comment.scm` - Form handler that saves new comments
 
 ## Documentation
 
-See `docs/` for comprehensive guides:
+`docs/` contains:
 
-- **README.md** - Complete learning guide with all concepts explained
-- **QUICK_START.md** - API reference and common patterns
-- **AUTO_CONSTRUCTORS.md** - How automatic code generation works
-- **DB_CONNECTION_EXPLAINED.md** - Understanding parameters
-- **DB_LIST_EXPLAINED.md** - SELECT queries in depth
+- `README.md` - Learning guide
+- `QUICK_START.md` - API reference
+- `AUTO_CONSTRUCTORS.md` - How code generation works
+- `DB_CONNECTION_EXPLAINED.md` - Parameters
+- `DB_LIST_EXPLAINED.md` - SELECT queries
 
-## Learning Examples
+## Examples
 
-The `docs/` folder includes runnable examples:
+`docs/` has runnable examples:
 
-- `full-crud-demo.scm` - Complete Create + Read workflow
-- `test-db-list.scm` - Comprehensive query tests
-- `nomadnet-page-example.scm` - Page rendering with comments
-- `parameters-explained.scm` - Understanding Scheme parameters
-- `constructor-gen.scm` - Dynamic function generation
-- And more!
+- `full-crud-demo.scm` - Create + Read
+- `test-db-list.scm` - Query tests
+- `nomadnet-page-example.scm` - Page rendering
+- `parameters-explained.scm` - Parameters
+- `constructor-gen.scm` - Code generation
 
-## Key Concepts Covered
+## Scheme Concepts Used
 
-This project teaches essential Scheme concepts through practical use:
+- Association lists (alists)
+- Parameters
+- Quasiquote & eval
+- Variadic functions
+- Higher-order functions (map, filter, for-each)
+- SQL integration
 
-- **Association lists** (alists) - Simple key-value data structures
-- **Parameters** - Thread-safe global state management
-- **Quasiquote & eval** - Metaprogramming and code generation
-- **Variadic functions** - Functions with optional arguments
-- **Higher-order functions** - map, filter, for-each
-- **SQL integration** - Safe database operations
+## Installation
 
-## Design Philosophy
-
-This ORM is intentionally **simple and learnable**:
-
-- No magic - understand what every line does
-- Clear error messages
-- Extensive inline documentation
-- Learning-focused examples
-- Minimal abstractions
-
-Perfect for learning Scheme while building real applications!
-
-## Requirements
+### Prerequisites
 
 - Chicken Scheme 5.x
+- SRFI eggs: srfi-1, srfi-13, srfi-19
 - sql-de-lite egg
-- srfi-1, srfi-13, srfi-19
+
+### Quick Install
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/pickles976/Macro.git
+   cd Macro
+   ```
+
+2. **Install Chicken Scheme dependencies**
+   ```bash
+   sudo chicken-install sql-de-lite srfi-1 srfi-13 srfi-19
+   ```
+
+3. **Build and install Macron modules**
+   ```bash
+   cd pages/framework
+
+   # Build the modules
+   csc -s micron.scm
+   csc -s markdown.scm
+   csc -s orm-lib.scm
+
+   # Install system-wide (optional)
+   sudo chicken-install -s micron.egg
+   sudo chicken-install -s markdown.egg
+   sudo chicken-install -s orm.egg
+
+   cd ../..
+   ```
+
+   Then use them anywhere:
+   ```scheme
+   (import micron)
+   (import markdown)
+   (import orm)
+   ```
+
+## Modules
+
+### Micron (`micron`)
+
+DSL for generating micron markup.
+
+```scheme
+(import micron)
+
+(print
+  (center (bold "Welcome to Macron"))
+  newline
+  (link "https://github.com/pickles976/Macro" "View on GitHub"))
+```
+
+### Markdown (`markdown`)
+
+Converts markdown to micron.
+
+```scheme
+(import markdown)
+
+(define content (md-file->micron "content.md"))
+(print content)
+```
+
+### ORM (`orm`)
+
+ORM for SQLite with auto-generated constructors.
+
+```scheme
+(import orm)
+
+(orm-init "app/models.scm")
+(db-open "app.db")
+
+(db-save (make-comment '((name . "Alice") (text . "Hello!"))))
+(define comments (db-list 'comment))
+
+(db-close)
+```
 
 ## License
 
-Use freely for your Nomadnet applications!
+MIT
 
-## Next Steps
+## Usage
 
-1. Read `docs/README.md` for the complete learning guide
-2. Try the examples in `docs/`
-3. Modify `src/models.scm` to add your own models
-4. Build your Nomadnet application!
+1. Read `docs/README.md`
+2. Run examples in `docs/`
+3. Modify `src/models.scm` to add models
+4. Build your app

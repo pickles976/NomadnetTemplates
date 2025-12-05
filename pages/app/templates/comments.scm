@@ -5,10 +5,11 @@
 (import (chicken string))
 (import srfi-1)
 (import srfi-13)
+(import micron)
+(import orm)
 
-;; Paths are relative to workspace root (where index.mu is run from)
-(load "framework/micron.scm")
-(load "framework/orm-lib.scm")
+;; Initialize ORM with models
+(orm-init "app/models.scm")
 
 ;; ========== COMMENTS DISPLAY ==========
 
@@ -19,7 +20,7 @@
         (timestamp (alist-ref 'timestamp comment))
         (address (alist-ref 'address comment)))
     (conc
-      (style '(fg "eee")) newline name (reset-style)
+      (style '(fg "eee")) nl name (reset-style)
       " (" timestamp ")"
       (if (and address (not (string-null? address)))
           (conc
@@ -27,8 +28,8 @@
             (link (conc "lxmf@" address) (conc " lxmf@" address))
             (reset-style))
           "")
-      ":" newline
-      text newline "-" newline)))
+      ":" nl
+      text nl "-" nl)))
 
 (define (display-comments db-path page-id)
   "Display comments for a page from the database"

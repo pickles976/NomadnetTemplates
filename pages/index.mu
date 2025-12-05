@@ -2,18 +2,18 @@
 
 ;;; index.mu - Macron Framework Homepage
 
-;; Paths relative to workspace root (where this is run from)
-(load "framework/micron.scm")
-(load "framework/markdown.scm")
-(load "app/templates/header.scm")
-(load "app/templates/comments.scm")
+(import micron)
+(import markdown)
+
+(load "./app/templates/header.scm")
+(load "./app/templates/comments.scm")
 
 ;; Configuration
 (define db-path "app/app.db")
 (define page-name "index")
 
 (define (my-input-field label fieldname size)
-  (conc (style '(bg "333" fg "aaa")) (input-field-fixed fieldname size) (reset-style) label newline))
+  (conc (style '(bg "333" fg "aaa")) (input-field-fixed fieldname size) (reset-style) label nl))
 
 ;; Generate the page
 (print
@@ -22,70 +22,68 @@
 
   ;; Welcome section
   (style '(align left))
-  newline
+  nl
 
-  newline
+  nl
   (section "Welcome to Macron")
-  newline
+  nl
 
     (style '(fg "ddd"))
     "This is a framework written (mostly by claude) to allow for the easy"
-    newline
+    nl
     "construction of " (bold "interactive pages") " on nomadnet."
-    newline newline
+    nl nl
 
     (style '(fg "5af"))
     (link "https://github.com/pickles976/Macro" "View on GitHub")
     (style '(fg "ddd"))
-    newline newline
+    nl nl
 
     "I found that there was not enough easy to use tooling around nomadnet"
-    newline
+    nl
     "and micron, and I hope that macron helps bridge that gap."
-    newline newline
+    nl nl
 
     (style '(fg "5af"))
     (link "/file/macron.tar.gz" "Download macron.tar.gz")
     (style '(fg "ddd"))
-    newline
+    nl
 
-  ;; Built for Learning section
-  newline
-  (subsection "Built for Learning")
-  newline
+  ;; Docs section
+  nl
+  (subsection "Documentation")
+  nl
 
     (style '(fg "ddd" align left))
-    newline
-    "The " (code "docs") " folder has a bunch of interactive scheme files that claude"
-    newline
-    "generated. They do a pretty good job at explaining how everything works."
-    newline
+    nl
+    "The " (code "docs") " folder has scheme files that explain how things work."
+    nl
 
   ;; Installation instructions from markdown
   (style '(align left))
-  newline
+  nl
   (md-file->micron "app/markdown/index.md")
-  newline
+  nl
 
   ;; Comments section
-  newline
+  nl
   (section "Community Discussion")
-  newline
+  nl
 
     (style '(align left fg "ddd"))
-    newline
+    nl
     (display-comments db-path page-name)
-    newline
+    nl
 
-  newline
+  nl
   (subsection "Leave a Comment")
-  newline
+  nl
 
     (style '(fg "aaa" align left))
-    newline
-    (my-input-field  " Name " "user_name" 16) newline
-    (my-input-field  " LXMF Address (optional)" "user_lxmf" 32) newline
-    (my-input-field  " Comment " "comment_text" 64) newline
+    nl
+    (my-input-field  " Name " "user_name" 16) nl
+    (my-input-field  " LXMF Address (optional)" "user_lxmf" 32) nl
+    (my-input-field  " Comment " "comment_text" 64) nl
 
     (style '(bg "373"))
     ;; label, link, page name, fields

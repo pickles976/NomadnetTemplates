@@ -1,19 +1,49 @@
 #!/usr/bin/env -S csi -s
 
-;;; micron-dsl.scm - DSL for generating Nomad Network Micron markup
+;;; micron.scm - DSL for generating Nomadnet Micron markup
 ;;;
 ;;; Complete reference: https://rfnexus.github.io/micron-parser-js/
+;;;
+;;; Can be used as a script or installed as a module
 
-(import scheme)
-(import chicken.base)      ; For export, make-parameter, parameterize
-(import (chicken string))  ; For string-intersperse, conc
-(import srfi-1)           ; For alist-ref, assq
-(import srfi-13)          ; For string-null?
+(module micron
+  (;; Constants
+   squiggle nl
+   ;; Text formatting
+   bold italics underline bold-italic bold-underline
+   ;; Colors
+   fg bg colored reset-colors
+   color-red color-green color-blue color-yellow color-cyan color-magenta
+   color-white color-black color-gray color-dark-gray color-light-gray
+   color-success color-warning color-error color-info
+   error-text success-text warning-text info-text muted-text
+   ;; Alignment
+   left center right align-default
+   ;; Sections & structure
+   section subsection subsubsection section-depth divider hr
+   ;; Links
+   link link-button
+   ;; Literal/code
+   literal code
+   ;; Comments
+   comment
+   ;; Form inputs
+   input-field input-field-fixed input-password checkbox radio submit-field button
+   ;; Style
+   style reset-style reset-all
+   ;; Utilities
+   spacer indent heading)
+
+(import (except scheme newline))  ; Exclude built-in newline function
+(import chicken.base)
+(import (chicken string))
+(import srfi-1)
+(import srfi-13)
 
 ;; ========== CONSTANTS ==========
 
 (define squiggle "-∿")
-(define newline "  \n")
+(define nl "  \n")
 
 ;; ========== TEXT FORMATTING ==========
 
@@ -259,6 +289,10 @@
 
 ;; ========== CONVENIENCE ==========
 
-;; Re-export common constants for easy access
-(define nl newline)
+;; Alias for divider
 (define hr divider)
+
+) ;; end module micron
+
+;; When loaded as a script (not compiled), import the module
+(import micron)

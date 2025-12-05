@@ -5,13 +5,29 @@
 ;;; This provides the runtime functions that users call in their code:
 ;;;   - make-<model> constructors
 ;;;   - db-save function
+;;;
+;;; Can be used as a script or installed as a module
+
+(module orm
+  (;; Core API
+   db-open db-close db-save db-list db-connection
+   ;; Instance management
+   make-instance instance-model instance-fields
+   ;; Model utilities
+   model-field-names model-all-field-names
+   ;; Initialization
+   orm-init orm-init-with-models)
 
 (import scheme)
 (import (chicken base))
 (import (chicken string))
+(import (chicken file))
 (import srfi-1)
 (import srfi-13)
 (import sql-de-lite)
+
+;; Global parameter to hold loaded models
+(define all-models (make-parameter '()))
 
 ;; ========== INSTANCE REPRESENTATION ==========
 
@@ -66,23 +82,47 @@
     (eval `(define (,constructor-name fields)
              (make-instance ',model-name fields)))))
 
-(define (generate-all-constructors)
+(define (generate-all-constructors models-list)
   "Generate constructor functions for all models"
   ;;;
-  ;;; This loads models.scm and creates a make-* function for each model
-
-  ;; Load models - path relative to where scripts are run from (workspace root)
-  (load "app/models.scm")
+  ;;; Takes a list of model definitions and creates a make-* function for each
 
   ;; Generate constructor for each model
   (for-each
     (lambda (model)
       (let ((model-name (alist-ref 'name model)))
         (generate-constructor model-name)))
-    all-models))
+    models-list))
 
-;; Generate constructors when this library loads
-(generate-all-constructors)
+;; ========== INITIALIZATION ==========
+
+(define (orm-init models-path)
+  "Initialize ORM by loading models from a file path"
+  ;;;
+  ;;; Usage: (orm-init \"app/models.scm\")
+  ;;;
+  ;;; This loads the models file and generates constructors
+
+  (load models-path)
+  ;; After loading, all-models should be defined in the loaded file
+  ;; Store it in our parameter
+  (all-models (eval 'all-models))
+  (generate-all-constructors (all-models)))
+
+(define (orm-init-with-models models-list)
+  "Initialize ORM with an explicit list of models"
+  ;;;
+  ;;; Usage: (orm-init-with-models my-models-list)
+  ;;;
+  ;;; This generates constructors from the provided model list
+  ;;; without loading a file
+
+  ;; Store models in parameter
+  (all-models models-list)
+  (generate-all-constructors models-list))
+
+;; Note: When using as a module, you must call (orm-init "path/to/models.scm")
+;; or (orm-init-with-models models-list) to initialize the ORM
 
 ;; ========== DATABASE SAVING ==========
 
@@ -182,7 +222,7 @@
   ;; Models are already loaded by generate-all-constructors
 
   (let* ((model-name (instance-model instance))
-         (model (find-model model-name all-models))
+         (model (find-model model-name (all-models)))
          (sql-statement (instance->insert-sql instance model))
          (values (get-instance-values-in-order instance model)))
 
@@ -252,7 +292,7 @@
 
   ;; Parse arguments - filters are optional
   (let* ((filters (if (null? rest) '() (car rest)))
-         (model (find-model model-name all-models))
+         (model (find-model model-name (all-models)))
          (table-name (symbol->string (alist-ref 'name model)))
          (field-names (model-all-field-names model))
 
@@ -277,3 +317,8 @@
 
 ;; This library is meant to be loaded by other scripts
 ;; See example-usage.scm for usage examples
+
+) ;; end module orm
+
+;; When loaded as a script (not compiled), import the module
+(import orm)

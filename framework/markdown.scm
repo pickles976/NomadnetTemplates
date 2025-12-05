@@ -4,18 +4,24 @@
 ;;;
 ;;; Converts basic markdown syntax to micron markup
 ;;; Not comprehensive - handles common patterns
+;;;
+;;; Can be used as a script or installed as a module
+
+(module markdown
+  (;; Main API
+   markdown->micron markdown-file->micron
+   ;; Convenience aliases
+   md->micron md-file->micron)
 
 (import scheme)
 (import (chicken base))
 (import (chicken string))
 (import (chicken io))
 (import (chicken file))
-(import (chicken irregex))  ; For regex
+(import (chicken irregex))
 (import srfi-1)
 (import srfi-13)
-
-;; Load the micron DSL for cleaner output generation
-(load "framework/micron.scm")
+(import micron)
 
 ;; ========== UTILITIES ==========
 
@@ -211,3 +217,8 @@
 
 (define md->micron markdown->micron)
 (define md-file->micron markdown-file->micron)
+
+) ;; end module markdown
+
+;; When loaded as a script (not compiled), import the module
+(import markdown)
