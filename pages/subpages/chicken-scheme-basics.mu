@@ -3,8 +3,9 @@
 ;;; chicken-scheme-basics.mu - Introduction to Chicken Scheme
 
 (import micron)
+(load "/home/sebas/.nomadnetwork/storage/pages/app/settings.scm")
 (load "/home/sebas/.nomadnetwork/storage/pages/app/templates/comments.scm")
-(define page-name "chicken-scheme-basics")
+(define page-id "chicken-scheme-basics")
 
 (print
   (style '(align center))
@@ -84,4 +85,4 @@
   (link "/page/index.mu" "Back to Home")
   (reset-style)
 
-  (display-comments app-db-path page-id))
+  (display-comments (app-db-path) page-id))

@@ -3,8 +3,9 @@
 ;;; micron-dsl.mu - Micron DSL Reference
 
 (import micron)
+(load "/home/sebas/.nomadnetwork/storage/pages/app/settings.scm")
 (load "/home/sebas/.nomadnetwork/storage/pages/app/templates/comments.scm")
-(define page-name "micron-dsl")
+(define page-id "micron-dsl")
 
 (print
   (style '(align center))
@@ -104,4 +105,4 @@
   (style '(fg "5af"))
   (link "/page/index.mu" "Back to Home")
   (reset-style)
-  (display-comments app-db-path page-id))
+  (display-comments (app-db-path) page-id))

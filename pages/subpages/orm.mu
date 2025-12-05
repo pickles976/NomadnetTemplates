@@ -3,8 +3,9 @@
 ;;; orm.mu - ORM Guide
 
 (import micron)
-(load "/home/sebas/.nomadnetwork/storage/pages/app/templates/comments.scm)
-(define page-name "orm")
+(load "/home/sebas/.nomadnetwork/storage/pages/app/settings.scm")
+(load "/home/sebas/.nomadnetwork/storage/pages/app/templates/comments.scm")
+(define page-id "orm")
 
 (print
   (style '(align center))
@@ -107,4 +108,4 @@
   (link "/page/index.mu" "Back to Home")
   (reset-style)
 
-  (display-comments app-db-path page-id))
+  (display-comments (app-db-path) page-id))

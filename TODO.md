@@ -1,6 +1,7 @@
 ### TODO
-- [ ] get sub-pages working
-- [ ] fix markdown docs
+
+- [x] get sub-pages working
+- [ ] fix markdown doc rendering
 - [ ] improve styles (purple)
 
 - [ ] tell user to use absolute paths
