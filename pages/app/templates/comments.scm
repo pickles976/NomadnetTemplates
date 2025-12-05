@@ -23,7 +23,7 @@
    If page-name is provided, it will be displayed."
   (conc
     ;; Name and timestamp with arrow
-    (style '(fg "aa2")) "▶" name (reset-style)
+    (style '(fg "aa2")) "▶ " name (reset-style)
     " (" timestamp ")"
 
     ;; Optional LXMF address
@@ -105,3 +105,34 @@
 
                    (render-comment name address timestamp text page-name)))
                rows)))))
+
+;; =========== Custom User Comment Field ===================
+
+
+(define (my-input-field label fieldname size)
+  (conc (style '(bg "333" fg "aaa")) (input-field-fixed fieldname size) (reset-style) label nl))
+
+
+(define (comment-section page-id)
+
+  (conc
+    nl
+    (section "Comments")
+    nl
+  
+      (style '(align left fg "ddd"))
+      (display-comments (app-db-path) page-name)
+
+      nl
+      (subsection "Leave a Comment")
+      nl
+
+        (style '(fg "aaa" align left))
+        nl
+        (my-input-field  " Name " "user_name" 16) nl
+        (my-input-field  " LXMF Address (optional)" "user_lxmf" 32) nl
+        (my-input-field  " Comment " "comment_text" 64) nl
+
+        (style '(bg "373"))
+        (submit-field "Submit" "/app/actions/handle_comment.scm" page-name "user_name" "user_lxmf" "comment_text")
+        (reset-style)))

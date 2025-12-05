@@ -5,7 +5,8 @@
 (import micron)
 (load "/home/sebas/.nomadnetwork/storage/pages/app/settings.scm")
 (load "/home/sebas/.nomadnetwork/storage/pages/app/templates/comments.scm")
-(define page-id "micron-dsl")
+(load "/home/sebas/.nomadnetwork/storage/pages/app/templates/code.scm")
+(define page-name "micron-dsl")
 
 (print
   (style '(align center))
@@ -26,7 +27,7 @@
   (style '(fg "5af"))
   (bold "Bold text") (reset-style) " - " (code "(bold \"text\")") nl
   (style '(fg "fa5"))
-  (italic "Italic text") (reset-style) " - " (code "(italic \"text\")") nl
+  (italics "Italic text") (reset-style) " - " (code "(italic \"text\")") nl
   (style '(fg "5f5"))
   (underline "Underlined") (reset-style) " - " (code "(underline \"text\")") nl nl
 
@@ -39,8 +40,9 @@
 
   (subsection "Headers")
   nl
+  (code-block
   (code "(section \"Title\")") " - Top-level section" nl
-  (code "(subsection \"Subtitle\")") " - Sub-section" nl nl
+  (code "(subsection \"Subtitle\")") " - Sub-section" nl nl)
 
   (subsection "Links")
   nl
@@ -48,12 +50,14 @@
   (style '(fg "5af"))
   (link "https://example.com" "External Link")
   (reset-style) nl
-  (code "(link \"https://example.com\" \"External Link\")") nl nl
+  (code-block
+  (code "(link \"https://example.com\" \"External Link\")") nl nl)
 
   (style '(fg "5af"))
-  (link "/page/index.mu" "Internal Page")
+  (file-link "/page/index.mu" "Internal Page")
   (reset-style) nl
-  (code "(link \"/page/index.mu\" \"Internal Page\")") nl nl
+  (code-block
+  (code "(file-link \"/page/index.mu\" \"Internal Page\")") nl nl)
 
   (subsection "Forms")
   nl
@@ -61,20 +65,23 @@
   (style '(bg "333" fg "aaa"))
   (input-field-fixed "username" 16)
   (reset-style) " Username" nl
-  (code "(input-field-fixed \"username\" 16)") nl nl
+  (code-block
+  (code "(input-field-fixed \"username\" 16)") nl nl)
 
   "Submit button:" nl
   (style '(bg "373"))
   (submit-field "Submit" "/app/actions/handler.scm" "page-id" "username")
   (reset-style) nl
-  (code "(submit-field \"Submit\" \"/path\" \"page-id\" \"field1\" \"field2\")") nl nl
+  (code-block
+  (code "(submit-field \"Submit\" \"/path\" \"page-id\" \"field1\" \"field2\")") nl nl)
 
   (subsection "Alignment")
   nl
   (style '(align center))
   "Centered text"
   (style '(align left)) nl
-  (code "(style '(align center))") nl nl
+  (code-block
+  (code "(style '(align center))") nl nl)
 
   (subsection "Code Blocks")
   nl
@@ -84,7 +91,8 @@
   nl
   "Horizontal line:" nl
   (divider) nl
-  (code "(divider)") nl nl
+  (code-block
+  (code "(divider)") nl nl)
 
   (subsection "Combining Styles")
   nl
@@ -93,9 +101,10 @@
   (bold "Styled & Centered")
   (reset-style) nl nl
 
+  (code-block
   (code "(style '(fg \"0ff\" bg \"333\" align center))") nl
   (code "(bold \"Styled & Centered\")") nl
-  (code "(reset-style)") nl nl
+  (code "(reset-style)") nl nl)
 
   (subsection "Learn More")
   nl
@@ -103,6 +112,8 @@
   "See " (code "framework/micron.scm") " for full implementation."
   (reset-style) nl nl
   (style '(fg "5af"))
-  (link "/page/index.mu" "Back to Home")
+  (file-link "/page/index.mu" "Back to Home")
+  nl
   (reset-style)
-  (display-comments (app-db-path) page-id))
+
+  (comment-section page-name))
