@@ -1,39 +1,29 @@
-## Get Started
+### Installation  
 
-### Installation
+To get Macron running on your system:  
 
-To get Macron running on your system:
+**Clone the repository**
+   - git clone https://github.com/pickles976/Macro.git
+   - cd Macro
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/pickles976/Macro.git
-   cd Macro
-   ```
-
-2. **Install Chicken Scheme**
+**Install Chicken Scheme**
    - On Debian/Ubuntu: `sudo apt-get install chicken-bin`
    - On Arch: `sudo pacman -S chicken`
    - On macOS: `brew install chicken`
 
-3. **Install required Chicken Scheme packages**
-   ```bash
-   sudo chicken-install sql-de-lite srfi-1 srfi-13 srfi-19
-   ```
+**Install required Chicken Scheme packages**
+   - sudo chicken-install sql-de-lite srfi-1 srfi-13 srfi-19
 
-4. **Deploy to Nomadnet**
-   ```bash
-   # Copy pages to your Nomadnet storage directory
-   cp -r pages/* ~/.nomadnetwork/storage/pages/
+**Deploy to Nomadnet**
+    - # Copy pages to your Nomadnet storage directory
+    - cp -r pages/* ~/.nomadnetwork/storage/pages/
 
-   # Make the main page executable
-   chmod +x ~/.nomadnetwork/storage/pages/index.mu
-   ```
+    - # Make the main page executable
+    - chmod +x ~/.nomadnetwork/storage/pages/index.mu
 
-5. **Generate the database tables**
-   ```bash
-   cd ~/.nomadnetwork/storage/pages
-   csi -s framework/manage.scm --generate
-   ```
+**Generate the database tables**
+    - cd ~/.nomadnetwork/storage/pages
+    - csi -s framework/manage.scm --generate
 
 Your Macron site is now live on your Nomadnet node! Access it through the Nomadnet interface.
 
@@ -41,13 +31,18 @@ Your Macron site is now live on your Nomadnet node! Access it through the Nomadn
 
 Here is some documentation to get you started:
 
-**[Chicken Scheme Basics](./subpages/chicken_scheme_basics.mu)** - Learn the fundamentals of Scheme programming
+**[Chicken Scheme Basics](./subpages/chicken-scheme-basics.mu)** - Learn the fundamentals of Scheme programming  
 
-**[Micron DSL](./subpages/micron_dsl.mu)** - Generate micron with scheme
+**[Micron DSL](./subpages/micron-dsl.mu)** - Generate micron with scheme  
 
-**[Markdown Converter](./subpages/markdown_converter.mu)** - Write content efficiently with markdown
+**[Markdown Converter](./subpages/markdown-converter.mu)** - Write content efficiently with markdown  
 
-**[ORM Guide](./subpages/orm.mu)** - Build data-driven applications with our simple ORM
+**[ORM Guide](./subpages/orm.mu)** - Build data-driven applications with our simple ORM  
 
 ---
+
+If this section of the page looks weird, that's because it was translated from markdown into micron when the page loaded! Load markdown directly into your nomadnet page!
+
+---
+
 

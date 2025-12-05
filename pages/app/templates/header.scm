@@ -20,11 +20,10 @@
      Micron markup string for the header"
   (conc
     squiggle newline
-    (center
-      (bold (style '(fg "3af")) title (reset-style))
-      newline
-      (italics subtitle))
-    newline squiggle newline))
+    "`c`!`F3af" title "`!" newline
+    "`*" subtitle "`*" newline
+    "`Fddd" newline
+    squiggle newline))
 
 (define (macron-header)
   "Generate the default Macron framework header"

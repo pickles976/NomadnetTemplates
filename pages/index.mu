@@ -49,8 +49,6 @@
     (style '(fg "ddd"))
     newline
 
-  (divider) newline
-
   ;; Built for Learning section
   newline
   (subsection "Built for Learning")
@@ -63,8 +61,6 @@
     "generated. They do a pretty good job at explaining how everything works."
     newline
 
-  (divider) newline
-
   ;; Installation instructions from markdown
   (style '(align left))
   newline
@@ -72,8 +68,6 @@
   newline
 
   ;; Comments section
-  (divider) newline
-
   newline
   (section "Community Discussion")
   newline

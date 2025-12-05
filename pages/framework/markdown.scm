@@ -95,11 +95,15 @@
 
 ;; ========== MAIN CONVERTER ==========
 
+(define (has-hard-break? line)
+  "Check if line ends with 2+ spaces (markdown hard break)"
+  (irregex-search '(: (>= 2 space) eol) line))
+
 (define (convert-line line)
   "Convert a single line of markdown to micron"
   (cond
-    ;; Empty line
-    ((string-null? (string-trim line)) "  \n")
+    ;; Empty line - preserve as blank line
+    ((string-null? (string-trim line)) "\n")
 
     ;; Horizontal rule (check before inline conversion)
     ((irregex-search '(: bol (or (>= 3 #\-) (>= 3 #\*) (>= 3 #\_)) (* space) eol) line)
@@ -121,14 +125,81 @@
     ((irregex-search '(: bol (* space) (+ digit) #\. space) line)
      (convert-numbered-list (convert-inline-formatting line)))
 
-    ;; Regular paragraph
+    ;; Regular paragraph with hard break (ends with 2+ spaces)
+    ((has-hard-break? line)
+     (let ((trimmed (irregex-replace '(: (>= 2 space) eol) line "")))
+       (conc (convert-inline-formatting trimmed) "  \n")))
+
+    ;; Regular paragraph - just add newline
     (else
-     (conc (convert-inline-formatting line) "  \n"))))
+     (conc (convert-inline-formatting line) "\n"))))
+
+(define (is-code-fence? line)
+  "Check if line is a code fence (```)"
+  (irregex-search '(: bol (* space) "```" (* any)) line))
+
+(define (count-leading-spaces str)
+  "Count leading spaces in a string"
+  (let loop ((i 0))
+    (if (or (>= i (string-length str))
+            (not (char-whitespace? (string-ref str i))))
+        i
+        (loop (+ i 1)))))
+
+(define (strip-common-indent lines)
+  "Remove common leading whitespace from all lines"
+  (if (null? lines)
+      lines
+      (let* ((non-empty-lines (filter (lambda (l) (not (string-null? (string-trim l)))) lines))
+             (indents (map count-leading-spaces non-empty-lines))
+             (min-indent (if (null? indents) 0 (apply min indents))))
+        (map (lambda (l)
+               (if (>= (string-length l) min-indent)
+                   (substring l min-indent)
+                   l))
+             lines))))
+
+(define (process-lines-with-code-blocks lines)
+  "Process lines, handling code blocks specially"
+  (let loop ((remaining lines)
+             (result '())
+             (in-code-block #f)
+             (code-block-lines '()))
+    (if (null? remaining)
+        ;; Done processing
+        (if in-code-block
+            ;; Unclosed code block - just add what we have
+            (let ((stripped-lines (strip-common-indent (reverse code-block-lines))))
+              (reverse (cons (conc "`=" (string-join stripped-lines "\n") "`") result)))
+            (reverse result))
+        ;; Process next line
+        (let ((line (car remaining))
+              (rest (cdr remaining)))
+          (cond
+            ;; Entering or exiting code block
+            ((is-code-fence? line)
+             (if in-code-block
+                 ;; Exiting code block - format accumulated lines with stripped indent
+                 (let ((stripped-lines (strip-common-indent (reverse code-block-lines))))
+                   (loop rest
+                         (cons (conc "`=" (string-join stripped-lines "\n") "`\n") result)
+                         #f
+                         '()))
+                 ;; Entering code block - ignore the fence line
+                 (loop rest result #t '())))
+
+            ;; Inside code block - accumulate line as-is
+            (in-code-block
+             (loop rest result #t (cons line code-block-lines)))
+
+            ;; Normal line - convert it
+            (else
+             (loop rest (cons (convert-line line) result) #f '())))))))
 
 (define (markdown->micron markdown-text)
   "Convert markdown string to micron markup"
   (let* ((lines (string-split markdown-text "\n"))
-         (converted-lines (map convert-line lines)))
+         (converted-lines (process-lines-with-code-blocks lines)))
     (apply conc converted-lines)))
 
 (define (markdown-file->micron path)
