@@ -1,11 +1,6 @@
 ### TODO
 
-- [x] improve styles on comments
-- [x] improve styles on sub-pages
-- [ ] create tar.gz 
-- [ ] deploy to nomadnet
-
-### Making my own fucking nodes finally
+#### More Examples
 
 - [ ] create an an epub listing demo
 

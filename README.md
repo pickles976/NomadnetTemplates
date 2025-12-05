@@ -168,3 +168,7 @@ The LSP should now activate when you open any `.scm`, `.sld`, or `.mu` file.
    - **Show references**: Press `Space+a`
 
 The LSP will activate automatically when you open any `.scm`, `.sld`, or `.mu` file in Helix.
+
+#### Zip Command
+
+`tar --exclude=./NomadnetTemplates/.git -czvf Angstrom.tar.gz ./NomadnetTemplates`
