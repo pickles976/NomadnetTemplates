@@ -23,10 +23,10 @@
 ;     (print "")))
 
 ;; Load settings (running from pages/, so app/ is relative)
-(load "/home/sebas/.nomadnetwork/storage/pages/app/settings.scm")
-(load "/home/sebas/.nomadnetwork/storage/pages/app/templates/header.scm")
-(load "/home/sebas/.nomadnetwork/storage/pages/app/templates/comments.scm")
-(load "/home/sebas/.nomadnetwork/storage/pages/app/templates/code.scm")
+(load "/home/pi/.nomadnetwork/storage/pages/app/settings.scm")
+(load "/home/pi/.nomadnetwork/storage/pages/app/templates/header.scm")
+(load "/home/pi/.nomadnetwork/storage/pages/app/templates/comments.scm")
+(load "/home/pi/.nomadnetwork/storage/pages/app/templates/code.scm")
 
 ;; Configuration
 (define page-name "index")

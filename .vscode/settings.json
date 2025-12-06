@@ -1,6 +1,6 @@
 {
   "scheme-lsp.schemeLspImplementation": "chicken",
-  "scheme-lsp.schemeLspServerPath": "/home/sebas/.cache/chicken-install/lsp-server/chicken-lsp-server",
+  "scheme-lsp.schemeLspServerPath": "/home/pi/.cache/chicken-install/lsp-server/chicken-lsp-server",
   "scheme-lsp.chickenSourcePath": "",
   "files.associations": {
     "*.scm": "scheme",

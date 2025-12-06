@@ -3,9 +3,9 @@
 ;;; chicken-scheme-basics.mu - Introduction to Chicken Scheme
 
 (import micron)
-(load "/home/sebas/.nomadnetwork/storage/pages/app/settings.scm")
-(load "/home/sebas/.nomadnetwork/storage/pages/app/templates/comments.scm")
-(load "/home/sebas/.nomadnetwork/storage/pages/app/templates/code.scm")
+(load "/home/pi/.nomadnetwork/storage/pages/app/settings.scm")
+(load "/home/pi/.nomadnetwork/storage/pages/app/templates/comments.scm")
+(load "/home/pi/.nomadnetwork/storage/pages/app/templates/code.scm")
 (define page-name "chicken-scheme-basics")
 
 (print
