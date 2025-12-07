@@ -11,11 +11,17 @@
 (import uri-common)
 (import srfi-13)
 
+(load "/home/pi/.nomadnetwork/storage/pages/app/templates/subpage-header.scm")
+
 (define page-name "recipe-search")
+
+;; Helper for styled input fields
+(define (my-input-field label fieldname size)
+  (conc (style '(bg "333" fg "aaa")) (input-field-fixed fieldname size) (reset-style) label nl))
 
 ;; Get query parameter from environment or use default
 (define query-param
-  (or (get-environment-variable "var_query")
+  (or (get-environment-variable "field_query")
       ""))
 
 ;; Parse recipe items from HTML
@@ -50,19 +56,16 @@
 
 ;; Render the page
 (print
-  (style '(align center fg "5af"))
-  (bold "Recipe Search")
-  nl nl
+  (subpage-header "Recipe Search")
 
   (style '(align left fg "ddd"))
   "Search for recipes from http://hari.recipes"
   nl nl
 
   ;; Search form
-  (style '(align left fg "aaa"))
-  (input-field-fixed "query" 40)
-  " Search query"
-  nl nl
+  (style '(align left))
+  (my-input-field " Search query" "query" 40)
+  nl
 
   (style '(bg "353" fg "fff"))
   (submit-field "Search" "/page/subpages/recipe-search.mu" page-name "query")

@@ -174,9 +174,12 @@
     (if (null? remaining)
         ;; Done processing
         (if in-code-block
-            ;; Unclosed code block - just add what we have
+            ;; Unclosed code block - format with code-block style
             (let ((stripped-lines (strip-common-indent (reverse code-block-lines))))
-              (reverse (cons (conc "`=" (string-join stripped-lines "\n") "`") result)))
+              (reverse (cons (conc (style '(bg "000" align "left" fg "0f0")) "\n"
+                                  (string-join stripped-lines "\n")
+                                  "\n" (reset-style) "\n")
+                            result)))
             (reverse result))
         ;; Process next line
         (let ((line (car remaining))
@@ -185,10 +188,13 @@
             ;; Entering or exiting code block
             ((is-code-fence? line)
              (if in-code-block
-                 ;; Exiting code block - format accumulated lines with stripped indent
+                 ;; Exiting code block - format with code-block style (black bg, green text)
                  (let ((stripped-lines (strip-common-indent (reverse code-block-lines))))
                    (loop rest
-                         (cons (conc "`=" (string-join stripped-lines "\n") "`\n") result)
+                         (cons (conc (style '(bg "000" align "left" fg "0f0")) "\n"
+                                    (string-join stripped-lines "\n")
+                                    "\n" (reset-style) "\n")
+                               result)
                          #f
                          '()))
                  ;; Entering code block - ignore the fence line

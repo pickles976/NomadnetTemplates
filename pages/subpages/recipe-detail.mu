@@ -10,6 +10,8 @@
 (import http-client)
 (import uri-common)
 
+(load "/home/pi/.nomadnetwork/storage/pages/app/templates/subpage-header.scm")
+
 (define page-name "recipe-detail")
 
 ;; Get recipe index from environment variable
@@ -82,15 +84,12 @@
 
 ;; Render the page
 (print
-  ;; Back button
+  (subpage-header recipe-title)
+
+  ;; Back to search button
   (style '(align left bg "533" fg "fff"))
   (submit-field "← Back to Search" "/page/subpages/recipe-search.mu" page-name)
   (reset-style)
-  nl nl
-
-  ;; Recipe title
-  (style '(align center fg "5af"))
-  (bold recipe-title)
   nl nl
 
   ;; Ingredients section
